@@ -1,21 +1,60 @@
-let numbersElement = document.getElementById("numbers");
-let h3Element = document.createElement("h3");
-h3Element.textContent = "5";
-let plusButton = document.createElement("button");
-plusButton.textContent = "+";
-let minusButton = document.createElement("button");
-minusButton.textContent = "-";
+let numbersWrapper = document.querySelector('#numbers')
 
-numbersElement.append(h3Element);
-numbersElement.append(plusButton);
-numbersElement.append(minusButton);
+let numberDisplay = document.createElement('h3')
+let minusBtn = document.createElement('button')
+let plusBtn = document.createElement('button')
 
-plusButton.addEventListener("click", () => {
-  let currentValue = parseInt(h3Element.textContent);
-  h3Element.textContent = currentValue + 1;
+numberDisplay.textContent = 5
+minusBtn.textContent = '-'
+plusBtn.textContent = '+'
+
+numbersWrapper.append(numberDisplay, minusBtn, plusBtn)
+
+function changeColor() {
+  if (parseInt(numberDisplay.textContent) >= 5) {
+    numberDisplay.style.color = 'green';
+  } else {
+    numberDisplay.style.color = 'red';
+  }
+}
+
+changeColor();
+
+minusBtn.addEventListener('click', function() {
+  numberDisplay.textContent = parseInt(numberDisplay.textContent) - 1;
+
+  if (parseInt(numberDisplay.textContent) <= 1) {
+    minusBtn.setAttribute('disabled', true);
+  }
+
+  if (parseInt(numberDisplay.textContent) < 10) {
+    plusBtn.removeAttribute('disabled');
+  }
+
+  changeColor();
 });
 
-minusButton.addEventListener("click", () => {
-  let currentValue = parseInt(h3Element.textContent);
-  h3Element.textContent = currentValue - 1;
+plusBtn.addEventListener('click', function() {
+  numberDisplay.textContent = parseInt(numberDisplay.textContent) + 1;
+
+  if (parseInt(numberDisplay.textContent) >= 10) {
+    plusBtn.setAttribute('disabled', true);
+  }
+
+  if (parseInt(numberDisplay.textContent) > 1) {
+    minusBtn.removeAttribute('disabled');
+  }
+
+  changeColor();
 });
+
+const resetBtn = document.createElement('button');
+resetBtn.textContent = 'Reset';
+resetBtn.addEventListener('click', function() {
+  numberDisplay.textContent = 5;
+  minusBtn.removeAttribute('disabled');
+  plusBtn.removeAttribute('disabled');
+  changeColor();
+});
+
+numbersWrapper.append(resetBtn);
